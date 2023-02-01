@@ -1,0 +1,31 @@
+apt install -y python3
+apt install python3-pip
+
+mkdir -p layer/python/lib/python3.9/site-packages
+
+pip3 install boto3 -t layer/python/lib/python3.9/site-packages/
+pip3 install requests -t layer/python/lib/python3.9/site-packages/
+pip3 install requests_aws4auth -t layer/python/lib/python3.9/site-packages/
+pip3 install datetime -t layer/python/lib/python3.9/site-packages/
+
+cd layer/
+zip -r mylayer.zip *
+mv mylayer.zip /root/opensearch-snapshot-s3/terraform/
+rm /root/opensearch-snapshot-s3/terraform/layer/ -r
+
+# Lista repositório 
+GET _snapshot?pretty
+
+# Lista snapshot
+GET _snapshot/snapshot-s3/_all?pretty
+
+# Deleta index
+DELETE logstash-containers-2021.12.14
+
+# Restaura um index do snapshot
+POST _snapshot/snapshot-s3/snapshot-2023-01-23/_restore
+{
+  "indices": "logstash-containers-2021.12.14"
+}
+
+
