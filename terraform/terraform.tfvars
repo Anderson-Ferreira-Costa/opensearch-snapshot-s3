@@ -1,6 +1,6 @@
-region     = "ca-central-1"
+region = "ca-central-1"
 
-vpc_id     = "vpc-01b2413fed65ca13a"
+vpc_id = "vpc-01b2413fed65ca13a"
 
 route_table_id = "rtb-00f9175ca61fdd59a"
 

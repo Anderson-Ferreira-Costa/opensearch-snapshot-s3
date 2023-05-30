@@ -3,22 +3,25 @@ import requests
 from requests_aws4auth import AWS4Auth
 from datetime import date
 
-host = 'https://vpc-meios-de-pagamentos-prd-smyl652kbppqus5htk4wknuvxm.ca-central-1.es.amazonaws.com/' # include https:// and trailing /
-region = 'ca-central-1' # e.g. us-west-1
-service = 'es'
-credentials = boto3.Session().get_credentials()
-date = date.today()
-
-awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
-
-# Take snapshot
-
-path = f'_snapshot/snapshot-s3/snapshot-{date}'
-url = host + path
-
-r = requests.put(url, auth=awsauth)
-
-print(r.text)
+def lambda_handler(event, context):
+    host = 'https://vpc-meios-de-pagamentos-prd-smyl652kbppqus5htk4wknuvxm.ca-central-1.es.amazonaws.com/' # include https:// and trailing /
+    region = 'ca-central-1' # e.g. us-west-1
+    service = 'es'
+    credentials = boto3.Session().get_credentials()
+    current_date = date.today()
+    
+    awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, service, session_token=credentials.token)
+    
+    # Take snapshot
+    
+    path = f'_snapshot/snapshot-s3/snapshot-{current_date}'
+    url = host + path
+    
+    headers = {"Content-Type": "application/json"}
+    
+    r = requests.put(url, auth=awsauth)
+    
+    print(r.text)
 
 
 # # Restore snapshot (one index)

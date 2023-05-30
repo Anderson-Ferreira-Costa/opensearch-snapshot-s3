@@ -1,9 +1,9 @@
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = var.vpc_id
-  service_name = "com.amazonaws.ca-central-1.s3"
+  vpc_id            = var.vpc_id
+  service_name      = "com.amazonaws.ca-central-1.s3"
   vpc_endpoint_type = "Gateway"
 
-    tags = {
+  tags = {
     Name = "vpce-openserch-s3"
   }
 }
@@ -15,17 +15,14 @@ resource "aws_vpc_endpoint_route_table_association" "this" {
 resource "aws_vpc_endpoint_policy" "this" {
   vpc_endpoint_id = aws_vpc_endpoint.s3.id
   policy = jsonencode({
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Effect": "Allow",
-			"Principal": "*",
-			"Action": "s3:*",
-			"Resource": [
-				"arn:aws:s3:::meios-de-pagamento-prd-opensearch-bkp",
-				"arn:aws:s3:::meios-de-pagamento-prd-opensearch-bkp/*"
-			]
-		}
-	]
-})
+    "Version" : "2008-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : "*",
+        "Action" : "*",
+        "Resource" : "*"
+      }
+    ]
+  })
 }
