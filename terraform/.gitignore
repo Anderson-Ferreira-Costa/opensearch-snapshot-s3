@@ -1,5 +1,5 @@
 *.hcl
-*.zip
+snapshot_opensearch.zip
 *.terraform
 *.tfstate
 *.backup
